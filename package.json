@@ -1,0 +1,28 @@
+{
+  "name": "encrypted-drivelink-worker",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build0": "webpack",
+    "build": "webpack --progress --mode none",
+    "build-pro": "webpack --progress --mode production",
+    "build-dev": "webpack --progress --mode none",
+    "build:watch": "webpack --watch",
+    "preview": "workers-preview < worker.js",
+    "quick-preview": "webpack --progress --mode none && workers-preview < worker.js"
+  },
+  "devDependencies": {
+    "webpack": "^4.42.1",
+    "webpack-cli": "^3.3.11",
+    "workers-preview": "^1.0.6"
+  },
+  "dependencies": {
+    "crypto-js": "^4.0.0"
+  },
+  "keywords": [],
+  "author": "yanzai",
+  "license": "ISC"
+}
