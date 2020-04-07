@@ -11,7 +11,7 @@
 
 ### cloudflare worker 端配置
 
-新建一个 Cloudflare Worker ，复制 worker.js 中的内容进去
+新建一个 Cloudflare Worker ，复制 [worker.js](https://raw.githubusercontent.com/yanzai/encrypted-drivelink-worker/master/worker.js)  中的内容进去
 
 修改配置：
 
@@ -29,7 +29,7 @@ const config = {
 };
 ```
 
-前三项参照 GoIndex 的说明配置，`root_id` 为直链基于的根目录的 drive id，`key` 为自己设置一个密码，`pickcode_maxage` 为直链最长有效期，以毫秒为单位，设置为0时，不验证直链有效期，直链永久有效。
+前三项参照 [GoIndex](https://github.com/yanzai/goindex) 的说明配置，`root_id` 为直链基于的根目录的 drive id，`key` 为自己设置一个密码，`pickcode_maxage` 为直链最长有效期，以毫秒为单位，设置为0时，不验证直链有效期，直链永久有效。
 
 然后保存并部署 worker
 
@@ -47,9 +47,9 @@ npm install crypto-js --save
 {"path":"movie/demo.mp4","time":1586270000000}
 ```
 
-`path` 为请求的文件路径，`time` 为 当前时间毫秒值
+`path` 为请求的文件路径，`time` 为 [当前时间毫秒值](https://currentmillis.com/)
 
- 计算 pickcode 密文示例代码，参考 node_generate_pickcode.js
+ 计算 pickcode 密文示例代码，参考 [node_generate_pickcode.js](https://github.com/yanzai/encrypted-drivelink-worker/blob/master/node_generate_pickcode.js)
 
 ```javascript
 const CryptoJS = require("crypto-js");
@@ -75,7 +75,7 @@ url: ${worker_url}${path}?pickcode=${pathEncryptToPickcode(path)}
 `);
 ```
 
-输出：
+输出示例：
 
 ```text
 path: movie/demo.mp4
@@ -104,6 +104,6 @@ url: https://name.my.workers.dev/movie/demo.mp4?pickcode=VTJGc2RHVmtYMTl5Q...
 
 ### 加密说明
 
-使用 crypto-js ，默认根据提供的密码使用 PBKDF2 加盐派生密钥，然后使用 aes-256-cbc 算法加密。
+使用 [crypto-js](https://github.com/brix/crypto-js) ，默认根据提供的密码使用 PBKDF2 加盐派生密钥，然后使用 aes-256-cbc 算法加密。
 
-如果你要使用其他语言作为 pickcode 分发端和 worker 对接，你可能需要自定制 CBC 模式的 key 和 iv ，可以参考：https://cryptojs.gitbook.io/docs/#progressive-ciphering ，或者你可能考虑使用 https://github.com/ricmoo/aes-js ，同样支持 cloudflare worker 中的 javascript 环境，似乎更容易和其他语言的 AES 加密进行对接。
+如果你要使用其他语言作为 pickcode 分发端和 worker 对接，你可能需要自定制 CBC 模式的 key 和 iv ，可以参考：https://cryptojs.gitbook.io/docs/#progressive-ciphering ，或者你可以考虑使用 [aes-js](https://github.com/ricmoo/aes-js ) ，同样支持 cloudflare worker 中的 javascript 环境，似乎更容易和其他语言的 AES 加密进行对接。
